@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {% extends "Style.html" %}
+    {% block content %}
+
+<h>Registration for new user</h>
+
+<form action="/action_page.php">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <input type="submit" value="Submit">
+</form> 
+<a href="/"><input type="button" value="Home"></a>
+{% endblock %}
+</body>
+</html>
