@@ -4,11 +4,18 @@ Created on Wed Apr  8 19:05:49 2020
 
 @author: user
 """
+# Publishable key : pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
+#Secret Key = sk_test_692Gz0OKlX5IZ38XSGzkal1F009ztBb44Q
+# SET in cmd
 
 from flask import Flask
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask import flash, redirect, render_template, request, session, abort,url_for
 import os
 import stripe
+
+#SET STRIPE_PUBLISHABLE_KEY=pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
+#SET STRIPE_SECRET_KEY=sk_test_692Gz0OKlX5IZ38XSGzkal1F009ztBb44Q
+
 
 app = Flask(__name__)
 stripe_keys = {
@@ -40,6 +47,11 @@ def about():
 @app.route("/Transfer")
 def Transfer():
     return render_template("Transfer.html", key=stripe_keys['publishable_key'])
+
+@app.route("/Registration")
+def Registration():
+    return render_template("Registration.html")
+
 @app.route('/charge', methods=['POST'])
 def charge():
 
