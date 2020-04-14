@@ -12,6 +12,14 @@ from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort,url_for
 import os
 import stripe
+import sqlite3
+import sqlalchemy
+from sqlalchemy.orm import sessionmaker
+from database import *
+def connect_db():
+    return sqlite3.connect(database)
+
+engine = create_engine('sqlite:///database.db', echo=True)
 
 #SET STRIPE_PUBLISHABLE_KEY=pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
 #SET STRIPE_SECRET_KEY=sk_test_692Gz0OKlX5IZ38XSGzkal1F009ztBb44Q
@@ -22,24 +30,42 @@ stripe_keys = {
   'secret_key': os.environ['STRIPE_SECRET_KEY'],
   'publishable_key': os.environ['STRIPE_PUBLISHABLE_KEY']
 }
+app.secret_key = "super secret key"
 
 stripe.api_key = stripe_keys['secret_key']
 
 @app.route("/")
 def home():
     return render_template("home.html")
-#def home():
-#    if not session.get('logged_in'):
-#        return render_template('login.html')
-#    else:
-#        return "Hello!"
-#@app.route('/login', methods=['POST'])
-#def do_admin_login():
-#    if request.form['password'] == 'password' and request.form['username'] == 'admin':
-#        session['logged_in'] = True
-#    else:
-#        flash('wrong password!')
-#    return home()
+
+@app.route("/login")
+def login():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return  render_template("successfullogin.html")
+@app.route('/login/next', methods=['POST'])
+def do_admin_login():
+    POST_USERNAME = str(request.form['username'])
+    POST_PASSWORD = str(request.form['password'])
+    
+    Session = sessionmaker(bind=engine)
+    s = Session()
+    query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]) )
+    result = query.first()
+    if result:
+            session['logged_in'] = True
+            return login()
+    else:
+            flash('wrong password!')
+            return login()
+        
+    
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return login()
+
 @app.route("/about")
 def about():
     return render_template("about.html")
