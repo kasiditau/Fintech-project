@@ -1,7 +1,7 @@
 {% extends "Style.html" %}
 {% block content %}
 
-<form action="/login/next" method="POST">
+<form action="/login" method="POST">
 <div class="login">
 <div class="login-screen">
 <div class="app-title">
@@ -14,14 +14,21 @@
 <div class="control-group">
 				<input type="password" class="login-field" value="" placeholder="password" name="password">
 <label class="login-field-icon fui-lock" for="login-pass"></label></div>
+<p>
 <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+</p>
+<p>
+
+Do not have an account?
+
+</p>
+<a href="/Registration"><input type="button" value="Registration"></a>
 
 </div>
 </div>
 </div>
 </form>
-Do not have an account
 
-<a href="/"><input type="button" value="Registration"></a>
-<a href="/"><input type="button" value="Home"></a>
+
+
 {% endblock %}

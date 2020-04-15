@@ -2,26 +2,31 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Mobile App</title>
+    <title>Beerich</title>
   </head> 
   
   <body >
 
    {% extends "Style.html" %}
    {% block content %}
-    <h1 align="center"> Our Mobile APP </h1>
+    <h1 align="center"> Beerich </h1>
     <div class="about">
        <a style="text-decoration:none" href="{{ url_for('about') }}">About</a> 
     </div>
     <div class="Transfer">
       <a style="text-decoration:none" href="{{ url_for('Transfer') }}">Transfer</a>
     </div>
-   <div class="Registration">
-    <a style="text-decoration:none" href="{{ url_for('Registration') }}">Registration</a>
+   <div class="logout">
+    <a style="text-decoration:none" href="{{ url_for('logout') }}">Logout</a>
    </div>
-   <div class="Registration">
-    <a style="text-decoration:none" href="{{ url_for('login') }}">Login</a>
-   </div>
+
+   <div class="navbar">
+    <a href="/home" >Home</a>
+    <a href="/Transfer">Transfer</a>
+    <a href="/Account">Account</a>
+  </div>
+
+
     {% endblock %}
   </body>
 </html>
