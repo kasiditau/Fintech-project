@@ -4,16 +4,23 @@
     {% extends "Style.html" %}
     {% block content %}
 
-<h>Registration for new user</h>
+<h>Knowing You</h>
 
 <form action="/action_page.php">
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname"><br>
   <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname"><br>
+  <label for="password">Password</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <label for="confirmpassword">Confirm password</label><br>
   <input type="text" id="fname" name="fname"><br>
   <input type="submit" value="Submit">
+ 
 </form> 
-<a href="/"><input type="button" value="Home"></a>
+<div class="cancelbutton">
+<a href="/"><input type="button" value="Cancel"></a>
+</div>
 {% endblock %}
 </body>
 </html>

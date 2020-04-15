@@ -13,12 +13,11 @@ from flask import flash, redirect, render_template, request, session, abort,url_
 import os
 import stripe
 import sqlite3
-import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from database import *
 def connect_db():
     return sqlite3.connect(database)
 
+from database import *
 engine = create_engine('sqlite:///database.db', echo=True)
 
 #SET STRIPE_PUBLISHABLE_KEY=pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
@@ -35,16 +34,13 @@ app.secret_key = "super secret key"
 stripe.api_key = stripe_keys['secret_key']
 
 @app.route("/")
-def home():
-    return render_template("home.html")
-
-@app.route("/login")
 def login():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return  render_template("successfullogin.html")
-@app.route('/login/next', methods=['POST'])
+        return logout()
+    
+@app.route('/login', methods=['POST'])
 def do_admin_login():
     POST_USERNAME = str(request.form['username'])
     POST_PASSWORD = str(request.form['password'])
@@ -55,12 +51,17 @@ def do_admin_login():
     result = query.first()
     if result:
             session['logged_in'] = True
-            return login()
+            return home()
     else:
-            flash('wrong password!')
-            return login()
+           flash('Oops,Try again','error')
+           return login()
+       
+@app.route("/home")
+def home():
+    return render_template('home.html')
+       
         
-    
+
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
@@ -77,6 +78,10 @@ def Transfer():
 @app.route("/Registration")
 def Registration():
     return render_template("Registration.html")
+
+@app.route("/Account")
+def Account():
+    return render_template("account.html")
 
 @app.route('/charge', methods=['POST'])
 def charge():
