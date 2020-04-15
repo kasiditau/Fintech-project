@@ -13,12 +13,11 @@ from flask import flash, redirect, render_template, request, session, abort,url_
 import os
 import stripe
 import sqlite3
-import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from database import *
 def connect_db():
     return sqlite3.connect(database)
 
+from database import *
 engine = create_engine('sqlite:///database.db', echo=True)
 
 #SET STRIPE_PUBLISHABLE_KEY=pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
@@ -57,10 +56,9 @@ def do_admin_login():
             session['logged_in'] = True
             return login()
     else:
-            flash('wrong password!')
-            return login()
-        
-    
+           flash('wrong password!')
+           return login()
+
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
