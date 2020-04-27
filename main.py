@@ -11,14 +11,15 @@ Created on Wed Apr  8 19:05:49 2020
 from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort,url_for
 import os
-import stripe
+# import stripe
 import sqlite3
-import sqlalchemy
+from sqlalchemy import create_engine
+
 from sqlalchemy.orm import sessionmaker
-from database import *
 def connect_db():
     return sqlite3.connect(database)
 
+from database import *
 engine = create_engine('sqlite:///database.db', echo=True)
 
 #SET STRIPE_PUBLISHABLE_KEY=pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
@@ -26,25 +27,24 @@ engine = create_engine('sqlite:///database.db', echo=True)
 
 
 app = Flask(__name__)
-stripe_keys = {
-  'secret_key': os.environ['STRIPE_SECRET_KEY'],
-  'publishable_key': os.environ['STRIPE_PUBLISHABLE_KEY']
-}
 app.secret_key = "super secret key"
 
-stripe.api_key = stripe_keys['secret_key']
+# stripe_keys = {
+#   'secret_key': os.environ['STRIPE_SECRET_KEY'],
+#   'publishable_key': os.environ['STRIPE_PUBLISHABLE_KEY']
+# }
+# app.secret_key = "super secret key"
+
+# stripe.api_key = stripe_keys['secret_key']
 
 @app.route("/")
-def home():
-    return render_template("home.html")
-
-@app.route("/login")
 def login():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return  render_template("successfullogin.html")
-@app.route('/login/next', methods=['POST'])
+        return logout()
+    
+@app.route('/login', methods=['POST'])
 def do_admin_login():
     POST_USERNAME = str(request.form['username'])
     POST_PASSWORD = str(request.form['password'])
@@ -55,12 +55,15 @@ def do_admin_login():
     result = query.first()
     if result:
             session['logged_in'] = True
-            return login()
+            return home()
     else:
-            flash('wrong password!')
-            return login()
-        
-    
+           flash('Oops,Try again','error')
+           return login()
+       
+@app.route("/home")
+def home():
+    return render_template('home.html')
+       
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
@@ -72,30 +75,33 @@ def about():
 
 @app.route("/Transfer")
 def Transfer():
-    return render_template("Transfer.html", key=stripe_keys['publishable_key'])
+    return render_template("Transfer.html") #, key=stripe_keys['publishable_key'])
 
 @app.route("/Registration")
 def Registration():
     return render_template("Registration.html")
+# def checkRegister():
+#     POST_USERNAME = str(request.form['username'])
+#     POST_PASSWORD = str(request.form['password'])
+#     Session = sessionmaker(bind=engine)
+#     s = Session()
+#     query = s.query(User).filter(User.username.in_([POST_USERNAME]))
+#     result = query.first()
+#     if result:
+#             flash('Username has been taken','error')
+#     else:
+#             return register()
+# def register():
+#     Session = sessionmaker(bind=engine)
+#     session = Session()
+#     user = User(str(request.form['username']),str(request.form['password']))
+#     session.add(user)
+#     session.commit()
 
-@app.route('/charge', methods=['POST'])
-def charge():
+@app.route("/Account")
+def Account():
+    return render_template("account.html")
 
-    # amount in cents
-    amount = 500
 
-    customer = stripe.Customer.create(
-        email='first@customer.com',
-        source=request.form['stripeToken']
-    )
-
-    stripe.Charge.create(
-        customer=customer.id,
-        amount=amount,
-        currency='usd',
-        description='Flask Charge'
-    )
-
-    return render_template('charge.html', amount=amount)
 if __name__ == "__main__":
     app.run(debug=True)
