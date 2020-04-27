@@ -8,12 +8,11 @@
     {% extends "Style.html" %}
     {% block content %}
 
-    <h1> Transfering your money</h1>
+    <h1 align="center"> Transfering your money</h1>
     <p> 
-    <img src = "wallet.png">
     </p>
     <div>
-        <h2>Buy for $5.00</h2>
+        <h2>Pay Bill</h2>
         <form action="/charge" method="post">
           <script
             src="https://checkout.stripe.com/checkout.js"
@@ -25,7 +24,12 @@
           </script>
         </form>
       </div>
-      <a href="/"><input type="button" value="Home"></a>
+      <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer">Transfer</a>
+        <a href="/Account">Account</a>
+      </div> 
+  
       {% endblock %}
   </body>
 </html>
