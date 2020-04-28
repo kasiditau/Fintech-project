@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Apr  8 19:05:49 2020
-
 @author: user
 """
 # Publishable key : pk_test_iC57QJk6E5OX4yGET2ti9cYN00MW6uUVsd
@@ -14,6 +13,7 @@ import os
 # import stripe
 import sqlite3
 from sqlalchemy import create_engine
+
 
 from sqlalchemy.orm import sessionmaker
 def connect_db():
@@ -79,26 +79,37 @@ def about():
 def Transfer():
     return render_template("Transfer.html") #, key=stripe_keys['publishable_key'])
 
-@app.route("/Registration")
+@app.route("/Registration", methods=['GET','POST'])
+#def Registration():
+#    return render_template("Registration.html")
+
+#def checkRegister():
+#    POST_USERNAME = str(request.form["username"])
+#    POST_PASSWORD = str(request.form["password"])
+#    Session = sessionmaker(bind=engine)
+#    s = Session()
+#    query = s.query(User).filter(User.username.in_([POST_USERNAME]))
+#    result = query.first()
+#    if result:
+#            flash('Username has been taken','error')
+#    else:
+#            return register()
+
 def Registration():
+    if request.method=="POST":       
+        username=request.form['username']
+        password=request.form['password']        
+        
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        register = User(username = username, password = password)
+#    session.execute("INSERT INTO users(username,password) VALUES(:username,:password)",{"username":username,"password":secure_password})
+        session.add(register)
+        session.commit()
+        flash("Registration successful!")
+        
+        return redirect(url_for("login"))       
     return render_template("Registration.html")
-def checkRegister():
-    POST_USERNAME = str(request.form['username'])
-    POST_PASSWORD = str(request.form['password'])
-    Session = sessionmaker(bind=engine)
-    s = Session()
-    query = s.query(User).filter(User.username.in_([POST_USERNAME]))
-    result = query.first()
-    if result:
-            flash('Username has been taken','error')
-    else:
-            return register()
-def register():
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    user = User(str(request.form['username']),str(request.form['password']))
-    session.add(user)
-    session.commit()
 
 @app.route("/Account")
 def Account():

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {% extends "Style.html" %}
+    {% block content %}
+
+<h>Registration for new user</h>
+
+<form method="POST">
+
+ <label for="username">Username:</label><br> 
+  <input type="text" name="username" placeholder="username" required>
+<!--
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="fname" name="fname"><br> 
+-->
+  <label for="password">Password:</label><br>
+  <input type="password" name="password" placeholder="password" required>
+  <input type="submit" value="Submit">
+</form> 
+<a href="/"><input type="button" value="Home"></a>
+<a href="/"><input type="button" value="Cancel"></a>
+{% endblock %}
+</body>
+</html>
