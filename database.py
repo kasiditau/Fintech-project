@@ -19,16 +19,33 @@ class User(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True)
+    firstname = Column(String)
+    lastname  = Column(String)
     username = Column(String)
     password = Column(String)
     
     #----------------------------------------------------------------------
-    def __init__(self, username, password):
+    def __init__(self,firstname,lastname, username, password):
         """"""
+        self.firstname = firstname
+        self.lastname = lastname
         self.username = username
         self.password = password
+class transaction(Base):
+    """"""
+    __tablename__ = "transaction"
+    
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
+    payment_type = Column(String)
+    amount = Column(INT)
+    #----------------------------------------------------------------------
+    def __init__(self,username,payment_type, amount):
+        """"""
+        self.username = username
+        self.payment_type = payment_type
+        self.amount = amount
 
-
-
+                
 # create tables
 Base.metadata.create_all(engine)

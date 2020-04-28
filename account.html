@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Account</title>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+    <h1> My account </h1>
+   
+    <p>{{firstname}}</p>
+    <P>{{session['firstname']}} {{session['lastname']}}</P>
+    <P>Username: {{session['username']}}</P>
+    <p>Password: {{session['password']}}</p>
+
+
+    <div class="logout">
+        <a style="text-decoration:none" href="{{ url_for('logout') }}">Logout</a>
+       </div>
+       <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer">Transfer</a>
+        <a href="/Account">Account</a>
+      </div> 
+    {% endblock %}
+  </body>
+</html>

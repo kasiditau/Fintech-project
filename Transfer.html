@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>About Flask</title>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+
+    <h1 align="center"> Transfering your money</h1>
+    <p> 
+    </p>
+    <div>
+        <h2>Pay Here</h2>
+        <form method="post">
+          <label for="paymenttype">payment type:</label><br>
+          <input name="paymenttype" type="text" id="InputPaymenttype" class="form-control" value="{{ request.form.paymenttype }}"  required autofocus>
+          <label for="paidamount">paidamount:</label><br>
+          <input name="paidamount" type="number" id="inputPaidamount" class="form-control" value="{{ request.form.paidamount }}"  required autofocus>
+           <input type="submit" value="Pay now">
+        </form>
+      </div>
+      <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer">Transfer</a>
+        <a href="/Account">Account</a>
+      </div> 
+  
+      {% endblock %}
+  </body>
+</html>
