@@ -12,16 +12,13 @@
     <p> 
     </p>
     <div>
-        <h2>Pay Bill</h2>
-        <form action="/charge" method="post">
-          <script
-            src="https://checkout.stripe.com/checkout.js"
-            class="stripe-button"
-            data-key="{{ key }}"
-            data-description="A Flask Charge"
-            data-amount="500"
-            data-locale="auto">
-          </script>
+        <h2>Pay Here</h2>
+        <form method="post">
+          <label for="paymenttype">payment type:</label><br>
+          <input name="paymenttype" type="text" id="InputPaymenttype" class="form-control" value="{{ request.form.paymenttype }}"  required autofocus>
+          <label for="paidamount">paidamount:</label><br>
+          <input name="paidamount" type="number" id="inputPaidamount" class="form-control" value="{{ request.form.paidamount }}"  required autofocus>
+           <input type="submit" value="Pay now">
         </form>
       </div>
       <div class="navbar">
