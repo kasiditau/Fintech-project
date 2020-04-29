@@ -4,22 +4,31 @@
     {% extends "Style.html" %}
     {% block content %}
 
-<h>Registration for new user</h>
+<h>Knowing You</h>
 
 <form method="POST">
 
- <label for="username">Username:</label><br> 
-  <input type="text" name="username" placeholder="username" required>
-<!--
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="fname" name="fname"><br> 
--->
-  <label for="password">Password:</label><br>
-  <input type="password" name="password" placeholder="password" required>
-  <input type="submit" value="Submit">
+  <label for="firstname">First name:</label><br>
+  <input name="firstname" type="text" id="inputFirstname" class="form-control" value="{{ request.form.firstname }}" placeholder="firstname" required autofocus>
+  
+  <label for="lastname">Last name:</label><br>
+  <input name="lastname" type="text" id="inputLastname" class="form-control" value="{{ request.form.lastname }}" placeholder="lastname" required autofocus>
+
+  <label for="username">Username:</label><br>
+  <input name="username" type="text" id="inputUsername" class="form-control" value="{{ request.form.username }}" placeholder="username" required autofocus>
+  
+  <label for="password">Password</label><br>
+  <input name="password" type="text" id="inputPassword" class="form-control" value="{{ request.form.password }}" placeholder="password" required autofocus>
+
+  <label for="confirmpassword">Confirm password</label><br>
+  <input name="confirmpassword" type="text" id="inputConfirmpassword" class="form-control" value="{{ request.form.confirmpassword }}" placeholder="confirmpassword" required autofocus>
+
+  <input type="submit" value="Join">
+ 
 </form> 
-<a href="/"><input type="button" value="Home"></a>
+<div class="cancelbutton">
 <a href="/"><input type="button" value="Cancel"></a>
+</div>
 {% endblock %}
 </body>
 </html>
