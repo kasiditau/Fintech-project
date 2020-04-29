@@ -10,7 +10,7 @@ from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy import Column, Date, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
-
+from sqlalchemy.sql import func
 engine = create_engine('sqlite:///database.db', echo=True)
 Base = declarative_base()
 #######################################
@@ -40,12 +40,14 @@ class transaction(Base):
     username = Column(String)
     payment_type = Column(String)
     amount = Column(Integer)
+    date = Column(DateTime(timezone=True), server_default=func.now())
     #----------------------------------------------------------------------
-    def __init__(self,username,payment_type, amount):
+    def __init__(self,username,payment_type, amount, date):
         """"""
         self.username = username
         self.payment_type = payment_type
         self.amount = amount
+        self.date = date
 
                 
 # create tables
