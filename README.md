@@ -1,2 +1,2 @@
 # Fintech-project
-Files updated: main.py and Registration.html
+Files updated: main.py and database.py
