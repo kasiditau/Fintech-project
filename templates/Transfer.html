@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>About Flask</title>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+<div class="pay">
+  <div class="Beerichpay">
+    Beerichpay
+  </div>
+  <div class="Onlinepayment">
+    Online payment
+  </div>
+  <div class="transfer">
+    Transfer
+  </div>
+  <div class="Investment">
+    Investment
+  </div>
+</div>
+    <p> 
+    </p>
+
+    <!-- <div>
+        <h2>Pay Here</h2>
+        <form method="post">
+          <label for="paymenttype">payment type:</label><br>
+          <input name="paymenttype" type="text" id="InputPaymenttype" class="form-control" value="{{ request.form.paymenttype }}"  required autofocus>
+          <label for="paidamount">paidamount:</label><br>
+          <input name="paidamount" type="number" id="inputPaidamount" class="form-control" value="{{ request.form.paidamount }}"  required autofocus>
+           <input type="submit" value="Pay now">
+        </form>
+      </div> -->
+      <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer"><i class="fa fa-credit-card"></i>Transfer</a>
+        <a href="/log"><i class="fa fa-address-book"></i>Log</a>
+        <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
+        <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
+      </div> 
+  
+      {% endblock %}
+  </body>
+</html>

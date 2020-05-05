@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {% extends "Style.html" %}
+    {% block content %}
+
+<h>Knowing You</h>
+<div registrationform>
+<form method="POST">
+  <p>
+  <label for="firstname">First name</label><br>
+  <input name="firstname" type="text" id="inputFirstname" class="form-control" value="{{ request.form.firstname }}" placeholder="firstname" required autofocus>
+  </p>
+  <p>
+  <label for="lastname">Last name</label><br>
+  <input name="lastname" type="text" id="inputLastname" class="form-control" value="{{ request.form.lastname }}" placeholder="lastname" required autofocus>
+ </p>
+ <p>
+  <label for="username">Username</label><br>
+  <input name="username" type="text" id="inputUsername" class="form-control" value="{{ request.form.username }}" placeholder="username" required autofocus>
+</p>
+<p>
+  <label for="password">Password</label><br>
+  <input name="password" type="password" id="inputPassword" class="form-control" value="{{ request.form.password }}" placeholder="password" required autofocus>
+</p>
+<p>
+  <label for="confirmpassword">Confirm password</label><br>
+  <input name="confirmpassword" type="password" id="inputConfirmpassword" class="form-control" value="{{ request.form.confirmpassword }}" placeholder="confirmpassword" required autofocus>
+</p>
+</div>
+
+<div class="joinbutton">
+<input type="submit" value="Join">
+</div>
+ 
+</form> 
+<div class="cancelbutton">
+<a href="/"><input type="button" value="Cancel"></a>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Beerich</title>
+  </head> 
+  
+  <body >
+
+   {% extends "Style.html" %}
+   {% block content %}
+   <div class="dashboard">
+     <div class="totalbalance">
+       Total Balance (from database)
+     </div>
+    <h1 align="center"> Beerich </h1>
+    <p> Welcome back {{ session['firstname'] }} ! 
+    </p>
+    <p>
+      Text messages are used for personal, family, business and social purposes. 
+      Governmental and non-governmental organizations use text messaging for communication between colleagues.
+       In the 2010s, the sending of short informal messages has become an accepted part of many cultures, as happened earlier
+        with emailing.[1] This makes texting a quick and easy way to communicate with friends, family and colleagues, including 
+        
+    </p>
+    <p>
+      Alert level:
+    </p>
+  </div>
+
+    <div class="navbar">
+      <a href="/home"><i class="fa fa-home"></i>Home</a>
+      <a href="/Transfer"><i class="fa fa-credit-card"></i>Transfer</a>
+      <a href="/log"><i class="fa fa-address-book"></i>Log</a>
+      <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
+      <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
+    </div> 
+
+    {% endblock %}
+  </body>
+</html>
