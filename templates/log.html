@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Log</title>
+	<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 3.4px;
+  
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+    <h1 style="font-family:georgia,garamond,serif;font-size:30px;font-style:italic;">
+	Log
+	</h1>
+  <div class="log">
+	<table>
+	<thead>
+	<tr>
+	  <th> Type </th>
+	  <th> Amount </th>
+	  <th> Date </th>
+	 </tr>
+	 </thead>
+	 <tbody>
+	  {% for item in display %}
+	<tr>
+	     <td>{{item[0]}}</td>
+		 <td>{{item[1]}}</td>
+		 <td>{{item[2]}}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+    </table>	
+  </div>
+
+
+       <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer"><i class="fa fa-credit-card"></i>Pay</a>
+        <a href="/log"><i class="fa fa-address-book"></i>Log</a>
+        <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
+        <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
+      </div> 
+    {% endblock %}
+  </body>
+</html>

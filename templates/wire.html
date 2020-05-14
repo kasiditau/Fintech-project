@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>plan</title>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
+    <h1> Transfer </h1>
+    <div class = "cross">
+        <a href="/Transfer" class="cross"> <input type="button" value = "X"></a>
+      </div>
+
+    <div wire>
+        <form method="POST">
+          <p>
+          <label for="Account number">Account number</label><br>
+          <input name="Account number" type="number" id="inputaccountnumber" value="{{ request.form.accountnubmer }}">
+          </p>
+
+          <p>
+          <label for="wire">Input your amount</label><br>
+          <input name="wire" inputmode="numeric" type="number" id="inputwire" data-role="keypad"
+          data-keys="0,1,2,3,4,5,6,7,8,9" value="{{ request.form.wire }}">
+          </p>
+
+          <div class="wire">
+              <input type="submit" value="Transfer">
+          </div>
+
+      </div>
+
+       <div class="navbar">
+        <a href="/home"><i class="fa fa-home"></i>Home</a>
+        <a href="/Transfer"><i class="fa fa-credit-card"></i>Pay</a>
+        <a href="/log"><i class="fa fa-address-book"></i>Log</a>
+        <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
+        <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
+      </div> 
+      <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+    {% endblock %}
+  </body>
+</html>

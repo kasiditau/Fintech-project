@@ -48,6 +48,17 @@ body
   /* scroll-behavior: auto; */
   /* overflow-x:hidden; */
 }
+
+div.chart
+{
+  position:absolute;
+  scroll-behavior: auto;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:340px;
+  width:100%;
+}
+
 .totalbalance
 {
   position: relative;
@@ -61,45 +72,133 @@ body
   text-align: center;
   text-decoration:none;
 }
+div.pay
+{
+ position: relative;
+ display: block;
+ scroll-behavior: auto;
+ overflow-y: scroll;
+ text-align: center;
+ height:400px;
+}
 div.Beerichpay
 {
   position: relative;
-  display: block;
+  display: flex;
   width:100;
   height:22.5px;
-  background-color:  lightseagreen;
+  background-color:  yellow;
+  font-size: 20px;
   text-align: center;
+  align-items: center;
   padding:50px;
+  margin: 20px;
+  border-radius: 20px;
 }
+div.addcard input[type=submit]
+
+{
+  background-color: rgb(238, 144, 210); 
+  position:absolute;
+  display:flex;
+  top:30px;
+  width:200px ;
+  right:30px;
+  border: none;
+  color: black;
+  padding: 10px 30px;
+  text-align: center;
+  align-items: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 20px;
+}
+div.paywithtouchid
+{
+  position:relative;
+  color: black;
+  top:150px;
+
+}
+div.touchid 
+{
+content:url("touchid.png");
+position:absolute;
+display: block;
+left:110px;
+bottom:40px;
+height:50px;
+margin-left: auto;
+margin-right: auto;
+}
+
 div.Onlinepayment
 {
   position: relative;
-  display: block;
+  display: flex;
   width:100;
   height:22.5px;
   background-color:pink;
+  font-size: 20px;
   text-align: center;
+  align-items: center;
   padding:50px;
+  margin: 20px;
+  border-radius: 20px;
 }
 div.transfer
 {
   position: relative;
-  display: block;
+  display: flex;
   width:100;
   height:22.5px;
   background-color:lightblue;
   text-align: center;
+  align-items: center;
+  font-size: 20px;
   padding:50px;
+  margin: 20px;
+  border-radius: 20px;
 }
+.wire input[type=submit]
+{
+  background-color: lightgreen; 
+  position:relative;
+  display:flex;
+  top:20px;
+  width:200px ;
+  left:35px;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  padding-bottom: 20%;
+  text-align: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 40px;
+  border-radius: 20px;
+  }
 div.Investment
 {
   position: relative;
-  display: block;
+  display: flex;
   width:100;
   height:22.5px;
   background-color:lightgreen;
   text-align: center;
+  align-items: center;
+  font-size: 20px;
   padding:50px;
+  margin: 20px;
+  border-radius: 20px;
+}
+div.stock
+{
+  position:relative;
+  width:50%;
+  height:50%;
+  display:block;
 }
 div.about
 {
@@ -111,6 +210,7 @@ div.about
     text-align: center;
     margin: auto
 }
+
 div.Transfer
 {
     display:block;
@@ -120,9 +220,45 @@ div.Transfer
     text-align: center;
     border: solid;
     text-decoration:none;
-    
+}  
+div.log
+{
+border-style: solid;
+position: relative;
+scroll-behavior: auto;
+background-color: white;
+overflow-y: scroll;
+overflow-x:hidden;
+text-align: center;
+height:310px;
+}
 
-} 
+div.cross
+{
+  position:absolute;
+  top:0 ;
+  right:0;
+}
+
+div.paybutton input[type=submit]
+{
+  position: relative;
+  background-color: orange; 
+  display:flex;
+  border: none;
+  top:50px;
+  left:35px;
+  color: black;
+  padding: 10px 30px;
+  padding-bottom:20%;
+  padding-left: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 30px;
+  width:200px;
+  border-radius: 20px;
+}
+
 
 div.login
 {
@@ -210,18 +346,58 @@ div.cancelbutton input[type=button]
     border-radius: 20px
     }
 
+.Set input[type=submit]
 
-.logout {
+{
+  background-color:rgb(230, 103, 29); 
+  position:relative;
+  display:flex;
+  top:15px;
+  left: 30px;
+  width:200px ;
+  border: none;
+  color: rgb(246, 250, 8);
+  padding: 10px 20px;
+  padding-bottom: 20%;
+  align-items: center;
+  text-decoration: none;
+  font-size: 30px;
+  border-radius: 20px;
+}
+
+.add input[type=submit]
+{
+  background-color: lightgreen; 
+  position:relative;
+  display:flex;
+  top:20px;
+  width:200px ;
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  padding-bottom:20%;
+  text-align: center;
+  align-items: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
+  border-radius: 20px;
+  }
+.logout input[type=button]
+{
     background-color: lightcoral; 
     position:relative;
-    top:120px;
+    display:flex;
+    top:40px;
+    width:200px ;
     border: none;
     color: white;
-    padding: 15px 50px;
+    padding: 10px 30px;
+    padding-bottom:20%;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 30px;
+    border-radius: 20px;
   }
 
 /* Place the navbar at the bottom of the page, and make it stick */
@@ -256,3 +432,5 @@ div.cancelbutton input[type=button]
     background-color: black;
     color: yellow;
   }
+
+  

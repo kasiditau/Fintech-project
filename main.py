@@ -11,10 +11,14 @@ from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort,url_for,g
 import os
 import sqlite3
+import json
 # import stripe
 
 #DATABASE = '/Fintech/APP/database.db'
-DATABASE = 'database.db'
+#DATABASE = 'database.db'
+#DATABASE = 'E:\Fintech\APP\database.db'
+DATABASE = 'C:/Users/Ronisha Basker/venv/Fintech 13 May/database.db'
+
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -96,15 +100,48 @@ def do_admin_login():
            flash('Oops,Try again','error')
            return login()
        
-@app.route("/home")
+@app.route("/data.json")
+def data():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()  
+    c.execute("SELECT payment_type,amount FROM transactions WHERE username = :username AND payment_type!='Income' ", {"username":session["username"]})             
+    results = c.fetchall()
+    conn.commit()
+    conn.close()
+    print (results)
+    return json.dumps(results)
+    
+
+@app.route("/home", methods=['GET','POST'])
 def home():
-    # user = query_db('select * from users where username = ?',
-    #             [do_admin_login.POST_USERNAME], one=True)
-    # if user is None:
-    #     flash('No such user')
-    # else:
-    #     usernamee = do_admin_login.POST_USERNAME, 'has the id', user['user_id']
-    return render_template('home.html')
+    
+       
+       conn = sqlite3.connect('database.db')
+       c = conn.cursor()
+       c.execute("SELECT SUM(amount) FROM transactions WHERE username = :username AND payment_type!='Income' ", {"username":session["username"]})         
+       total_amount = c.fetchall()
+       c.execute("SELECT spendinglimit FROM users WHERE username = :username", {"username":session["username"]})
+       spending_limit = c.fetchall()
+       print(total_amount)
+       print(spending_limit)
+       conn.commit()
+       conn.close() 
+       totalamount = total_amount[0][0]
+       spendinglimit = spending_limit[0][0]
+       print(totalamount)
+       print(spendinglimit)
+       if totalamount != 0 and spendinglimit !=0:
+
+           if totalamount > spendinglimit:
+              flash('Warning, Exceeding spending limit!')
+              return render_template("home.html", totalamount=totalamount)
+       return render_template("home.html", totalamount=totalamount)
+           
+    
+    
+    
+    
+
        
 @app.route("/logout")
 def logout():
@@ -117,23 +154,72 @@ def about():
 
 @app.route("/Transfer", methods=['GET','POST'])
 def Transfer():
-    if request.method=="POST":
-        paymenttype = str(request.form['paymenttype'])
+   
+    
+    #if request.method=="POST":   
+        #username = str(request.form['username'])
+        #totalamount=int(request.form['totalamount'])        
+        #conn = sqlite3.connect('database.db')
+        #c = conn.cursor()        
+        #c.execute("INSERT INTO transactions (totalamount) WHERE username = :username" VALUES (?)", (username, totalamount))                
+        #conn.commit()
+    
+    
+    
+    return render_template("Transfer.html")
+    # return render_template("charge.html") #, key=stripe_keys['publishable_key'])
+
+@app.route("/pay", methods=['GET','POST'])
+def pay():
+    if request.method=="POST":   
         paidamount = int(request.form['paidamount'])
+        paymenttype=str(request.form['paymenttype'])
         # payment = query_db('select * from transaction where username = ?',session['username'], one=True)
         #newpayment=transaction(username=session['username'],payment_type=paymenttype,amount=paidamount)
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
+        # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+        #            VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+        #            ,session['password'],amount))
         c.execute("INSERT INTO transactions (username,payment_type,amount) VALUES (?,?,?)", (session['username'], paymenttype, paidamount))
-       # c.execute("INSERT INTO transaction (username,payment_type,amount)\
-             # VALUES(session['username'], paymenttype, paidamount)")
-       # c.execute("INSERT INTO students (name) VALUES (?)",(name))
-        conn.commit()
-        conn.close()
-        flash("payment successful")
-    return render_template("Transfer.html")
-    # return render_template("charge.html") #, key=stripe_keys['publishable_key'])
 
+      
+           # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+           #         VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+           #         ,session['password'],amount))
+    
+        conn.commit()
+        
+        droptrigger = """ drop TRIGGER IF EXISTS balance"""
+        c.execute(droptrigger)
+        conn.commit()
+
+        trigger = """
+        CREATE TRIGGER balance
+        AFTER INSERT ON transactions
+        WHEN NEW.amount
+        BEGIN
+        UPDATE users
+        SET totalamount = totalamount - NEW.amount
+        WHERE username = NEW.username;
+        END;
+        """
+        c.execute(trigger)
+        conn.commit()
+        conn.close()    
+        return render_template("pay.html")
+    return render_template("pay.html")
+
+@app.route("/beerichpay")
+def beerichpay():
+    return render_template("beerichpay.html")
+
+@app.route("/wire")
+def wire():
+    return render_template("wire.html")
+@app.route("/investment")
+def investment():
+    return render_template("investment.html")
 @app.route("/Registration", methods=['GET','POST'])
 #def Registration():
 #    return render_template("Registration.html")
@@ -175,10 +261,12 @@ def Registration():
             username=request.form['username']
             password=request.form['password'] 
             confirmpassword=request.form['confirmpassword']  
+            totalamount = 0
+            spendinglimit = 0
                 
             Session = sessionmaker(bind=engine)
             session = Session()
-            register = User(firstname= firstname,lastname=lastname,username = username, password = password)
+            register = User(firstname= firstname,lastname=lastname,username = username, password = password,totalamount = totalamount,spendinglimit = spendinglimit)
         #    session.execute("INSERT INTO users(username,password) VALUES(:username,:password)",{"username":username,"password":secure_password})
             session.add(register)
             session.commit()
@@ -187,22 +275,99 @@ def Registration():
             return render_template("login.html")
     return render_template("Registration.html")
 
-@app.route("/log")
+@app.route("/log", methods=['GET','POST'])
 def log():
-    return render_template("log.html")
-@app.route("/plan")
+
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            query = c.execute("SELECT payment_type,amount,date FROM transactions WHERE username = :username", {"username":session["username"]})         
+            display = query.fetchall()
+            conn.commit()
+            conn.close()
+            return render_template("log.html", display=display)
+
+@app.route("/plan", methods=['GET','POST'])
 def plan():
+
+    if request.method=="POST":   
+        spendinglimit = int(request.form['spendinglimit'])
+        
+        
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+        #            VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+        #            ,session['password'],amount))
+        c.execute("UPDATE users SET spendinglimit=500 WHERE username = :username", {"username":session["username"]})    
+        conn.commit()
+        conn.close()    
     return render_template("plan.html")
-@app.route("/Account")
+
+
+
+#    if request.method=="POST":   
+#        spendinglimit = int(request.form['spendinglimit'])
+        # payment = query_db('select * from transaction where username = ?',session['username'], one=True)
+        #newpayment=transaction(username=session['username'],payment_type=paymenttype,amount=paidamount)
+#        conn = sqlite3.connect('database.db')
+#        c = conn.cursor()
+        # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+        #            VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+        #            ,session['password'],amount))
+#        c.execute("UPDATE users set spendinglimit = spendinglimit + spendinglimit WHERE username = :username", {"username":session['username']})
+    
+#        conn.commit()
+#        conn.close()
+           # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+           #         VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+           #         ,session['password'],amount))
+    
+        
+       
+      
+        
+ 
+    
+@app.route("/Account",methods=['GET','POST'])
 def Account():
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
-    # user = query_db('select * from users where username = ?',
-    #         do_admin_login().POST_USERNAME, one=True)
-    # firstname = user[0]
-    # session['firstname'] = firstname
-    # session.commit
+    if request.method=="POST":   
+        amount = int(request.form['amount'])
+        paymenttype='Income'
+        # payment = query_db('select * from transaction where username = ?',session['username'], one=True)
+        #newpayment=transaction(username=session['username'],payment_type=paymenttype,amount=paidamount)
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+        #            VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+        #            ,session['password'],amount))
+        c.execute("INSERT INTO transactions (username,payment_type,amount) VALUES (?,?,?)", (session['username'], paymenttype, amount))
+ 
+      
+           # c.execute("INSERT INTO users (firstname,lastname,username,password,totalamount) \
+           #         VALUES (?,?,?,?,?)",(session['firstname'],session['lastname'],session['username']\
+           #         ,session['password'],amount))
+    
+        conn.commit()
+        
+        droptrigger = """ drop TRIGGER IF EXISTS update_balance"""
+        c.execute(droptrigger)
+        conn.commit()
+
+        trigger = """
+        CREATE TRIGGER update_balance
+        AFTER INSERT ON transactions
+        WHEN NEW.amount
+        BEGIN
+        UPDATE users
+        SET totalamount = totalamount + NEW.amount
+        WHERE username = NEW.username;
+        END;
+        """
+        c.execute(trigger)
+        conn.commit()
+        conn.close()    
     return render_template("account.html")
+
 @app.route("/charge")
 def charge():
     return render_template("charge.html")

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>beerichpay</title>
+  </head>
+  <body>
+    {% extends "Style.html" %}
+    {% block content %}
+    <style>
+        img 
+        {
+          position:relative;
+          display: block;
+          top: 100px;
+          width:90%;
+          margin-left: auto;
+          margin-right: auto;
+          height: 30%;
+          }
+        </style>
+ <div class = "beerichpay">
+    <div class = "cross">
+        <a href="/Transfer" class="cross"> <input type="button" value = "X"></a>
+      </div>
+     <div class="creditcard">
+        <img src="static\creditcard.jfif" alt="beerichpay">
+    </div>
+    <div class="addcard">
+            <input type="submit" value="Add card">
+    </div>
+<div class="paywithtouchid">
+    <p>Pay with TouchID</p>
+</div>
+
+<div class = "touchid">
+</div>
+
+</div>
+
+
+  
+      {% endblock %}
+  </body>
+</html>

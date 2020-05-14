@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+   <title>Flask Parent Template</title>
+   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+   rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+     crossorigin="anonymous">
+ 
+  <head>
+ </head>
+ <body>
+    <header>
+      <div class="container">
+        <h1>Mobile Payment App</h1>
+        <strong><nav>
+          <ul class="menu">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('Transfer') }}">Transfer</a></li>
+            <li><a href="{{ url_for('Registration') }}">Registration</a></li>
+
+          </ul>
+        </nav></strong>
+      </div>
+    </header>
+    
+ </body>
+</html>

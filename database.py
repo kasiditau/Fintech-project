@@ -22,14 +22,18 @@ class User(Base):
     lastname  = Column(String)
     username = Column(String)
     password = Column(String)
+    totalamount = Column(Integer)
+    spendinglimit = Column(Integer)
     
     #----------------------------------------------------------------------
-    def __init__(self,firstname,lastname, username, password):
+    def __init__(self,firstname,lastname, username, password,totalamount,spendinglimit):
         """"""
         self.firstname = firstname
         self.lastname = lastname
         self.username = username
         self.password = password
+        self.totalamount = totalamount
+        self.spendinglimit = spendinglimit
         
 class transaction(Base):
     """"""
@@ -48,6 +52,6 @@ class transaction(Base):
         self.amount = amount
         self.date = date
 
-                
+            
 # create tables
 Base.metadata.create_all(engine)

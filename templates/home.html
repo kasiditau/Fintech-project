@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Beerich</title>
+  </head>
+		
+	<body>
+	{% extends "Style.html" %}
+     {% block content %}
+
+
+    <p> Welcome back {{ session['firstname'] }} ! </p> 
+    <div class="container">
+		{% for message in get_flashed_messages() %}
+		<div class="alert alert-warning">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+		</div>
+		{% endfor %}
+
+    {% block page_content %}{% endblock %}
+	 
+    </div>
+
+
+  <div class="chart">
+
+     <!--Load the AJAX API-->
+	
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script type="text/javascript">
+ 
+       // Load the Visualization API and the controls package.
+       google.charts.load('current', {'packages':['corechart', 'controls']});
+ 
+       // Set a callback to run when the Google Visualization API is loaded.
+       google.charts.setOnLoadCallback(drawDashboard);
+ 
+       // Callback that creates and populates a data table,
+       // instantiates a dashboard, a range slider and a pie chart,
+       // passes in the data and draws it.
+       function drawDashboard() {
+ 
+         // Create our data table.
+         var data = google.visualization.arrayToDataTable([
+           ['Name', 'Categories'],
+           ['Shopping' , 5],
+           ['Entertainment', 7],
+           ['Transport', 3],
+           ['Food', 2],
+           ['Rent', 6],
+           
+         ]);
+ 
+         // Create a dashboard.
+         var dashboard = new google.visualization.Dashboard(
+             document.getElementById('dashboard_div'));
+ 
+         
+ 
+         // Create a pie chart, passing some options
+         var pieChart = new google.visualization.ChartWrapper({
+           'chartType': 'PieChart',
+           'containerId': 'chart_div',
+           'options': {
+             'width': 300,
+             'height': 300,
+             'pieSliceText': 'value',
+             'legend': 'right'
+           }
+         });
+ 
+        
+         // Draw the dashboard.
+         dashboard.draw(data);
+       }
+     </script>
+
+    <script src="{{ url_for('static', filename='jquery-1.8.3.min.js') }}"></script>
+    <script type="text/javascript">
+    $(function () {
+    $.getJSON('http://127.0.0.1:5000/data.json', function (data) {
+        // Create the chart
+        $('#container').highcharts('StockChart', {
+            rangeSelector : {
+                selected : 1
+            },
+            title : {
+                text : 'Spending'
+            },
+            series : [{
+                name : 'Value',
+                data : data,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+        });
+    });
+  });
+    </script>
+  
+  
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+  
+      // Load the Visualization API and the controls package.
+      google.charts.load('current', {'packages':['corechart', 'controls']});
+  
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawDashboard);
+  
+      // Callback that creates and populates a data table,
+      // instantiates a dashboard, a range slider and a pie chart,
+      // passes in the data and draws it.
+      function drawDashboard() {
+  
+        // Create our data table.
+        var data = google.visualization.arrayToDataTable([
+          ['Name', 'Categories'],
+          ['Shopping' , 5],
+          ['Entertainment', 7],
+          ['Transport', 3],
+          ['Food', 2],
+          ['Rent', 6],
+          
+        ]);
+  
+        // Create a dashboard.
+        var dashboard = new google.visualization.Dashboard(
+            document.getElementById('dashboard_div'));
+  
+        // Create a range slider, passing some options
+        var donutRangeSlider = new google.visualization.ControlWrapper({
+          'controlType': 'NumberRangeFilter',
+          'containerId': 'filter_div',
+          'options': {
+            'filterColumnLabel': 'Categories'
+          }
+        });
+  
+        // Create a pie chart, passing some options
+        var pieChart = new google.visualization.ChartWrapper({
+          'chartType': 'PieChart',
+          'containerId': 'chart_div',
+          'options': {
+            'width': 300,
+            'height': 300,
+            'pieSliceText': 'value',
+            'legend': 'right'
+          }
+        });
+  
+        // Establish dependencies, declaring that 'filter' drives 'pieChart',
+        // so that the pie chart will only display entries that are let through
+        // given the chosen slider range.
+        dashboard.bind(donutRangeSlider, pieChart);
+  
+        // Draw the dashboard.
+        dashboard.draw(data);
+      }
+    </script>		
+
+
+
+
+<!--Div that will hold the dashboard-->
+<div id="dashboard_div">
+  <!--Divs that will hold each control and chart-->
+  <div id="filter_div"></div>
+  <div id="chart_div"></div>
+</div>
+
+
+
+<script src="{{ url_for('static', filename='highstock.js') }}"></script>
+<script src="{{ url_for('static', filename='highcharts-more.js') }}"></script>
+<script src="{{ url_for('static', filename='exporting.js') }}"></script>
+<div id="container" style="min-width: 150px; height: 300px; margin: 0 auto"></div>
+
+
+  <!--Div that will hold the dashboard-->
+    <div id="dashboard_div">
+      <!--Divs that will hold each control and chart-->
+      <div id="filter_div"></div>
+      <div id="chart_div"></div>
+    </div>
+
+
+
+  </div> 
+  
+  <div class="navbar">
+      <a href="/home"><i class="fa fa-home"></i>Home</a>
+      <a href="/Transfer"><i class="fa fa-credit-card"></i>Transfer</a>
+      <a href="/log"><i class="fa fa-address-book"></i>Log</a>
+      <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
+      <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
+    </div> 	
+	
+{% endblock %}
+	</body>
+</html>

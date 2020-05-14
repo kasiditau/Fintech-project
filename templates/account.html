@@ -7,24 +7,41 @@
   <body>
     {% extends "Style.html" %}
     {% block content %}
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
     <h1> My account </h1>
-   
+  
     <p>{{firstname}}</p>
     <P>{{session['firstname']}} {{session['lastname']}}</P>
-    <P>Username: {{session['username']}}</P>
-    <p>Password: {{session['password']}}</p>
-
+    <P>
+    <div addmoneys>
+      <form method="POST">
+        <p>
+        <label for="amount">Add your money here</label><br>
+        <p>
+        <input name="amount" inputmode="numeric" type="number" id="inputAmount" data-role="keypad"
+        data-keys="0,1,2,3,4,5,6,7,8,9" value="{{ request.form.amount }}">
+      </p>
+        </p>
+    </P>
+      
+        <div class="add">
+            <input type="submit" value="Add">
+        </div>
+    </div>
 
     <div class="logout">
-        <a style="text-decoration:none" href="{{ url_for('logout') }}">Logout</a>
-       </div>
+        <a style="text-decoration:none" href="{{ url_for('logout') }}"><input type="button" value = "Log out"></a>
+    </div>
+
        <div class="navbar">
         <a href="/home"><i class="fa fa-home"></i>Home</a>
-        <a href="/Transfer"><i class="fa fa-credit-card"></i>Transfer</a>
+        <a href="/Transfer"><i class="fa fa-credit-card"></i>Pay</a>
         <a href="/log"><i class="fa fa-address-book"></i>Log</a>
         <a href="/plan"><i class='fas fa-edit'></i>Plan</a>
         <a href="/Account"><i class='fas fa-user-cog'></i>Account</a>
       </div> 
+      <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+
     {% endblock %}
   </body>
 </html>
